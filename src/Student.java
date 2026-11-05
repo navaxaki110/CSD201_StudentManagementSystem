@@ -1,9 +1,9 @@
 public class Student {
-    private String id;        // Mã sinh viên (Khóa định danh để tìm kiếm và lập chỉ mục trong BST)
-    private String name;      // Họ và tên sinh viên
-    private String major;     // Chuyên ngành (SE, IA, AI, CS,...)
-    private double gpa;       // Điểm trung bình tích lũy
-    private String courses;   // Danh sách môn học đã đăng ký thành công (cách nhau bởi dấu phẩy)
+    private String id;
+    private String name;
+    private String major;
+    private double gpa;
+    private String courses;
 
     public Student() {
         this.courses = "Chua dang ky";
@@ -25,7 +25,6 @@ public class Student {
         this.courses = (courses == null || courses.trim().isEmpty()) ? "Chua dang ky" : courses;
     }
 
-    // Getters and Setters
     public String getId() {
         return id;
     }
@@ -66,12 +65,10 @@ public class Student {
         this.courses = courses;
     }
 
-    // Phương thức thêm môn học đã đăng ký
     public void addCourse(String courseCode) {
         if (this.courses.equals("Chua dang ky") || this.courses.isEmpty()) {
             this.courses = courseCode;
         } else {
-            // Kiểm tra xem môn đã có trong danh sách chưa
             if (!hasCourse(courseCode)) {
                 this.courses += ", " + courseCode;
             }
@@ -97,4 +94,3 @@ public class Student {
                 id, name, major, gpa, courses);
     }
 }
-

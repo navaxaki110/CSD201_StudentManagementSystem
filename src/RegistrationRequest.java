@@ -1,7 +1,7 @@
 public class RegistrationRequest {
-    private String studentId;     // Mã sinh viên gửi yêu cầu
-    private String courseCode;    // Mã môn học muốn đăng ký (vd: CSD201, PRF192)
-    private String requestTime;   // Thời gian gửi yêu cầu
+    private String studentId;
+    private String courseCode;
+    private String requestTime;
 
     public RegistrationRequest(String studentId, String courseCode, String requestTime) {
         this.studentId = studentId;
@@ -39,4 +39,3 @@ public class RegistrationRequest {
                 studentId, courseCode, requestTime);
     }
 }
-

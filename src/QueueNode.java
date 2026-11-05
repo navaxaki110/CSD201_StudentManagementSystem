@@ -1,9 +1,5 @@
-/**
- * Node dành cho cấu trúc hàng đợi MyQueue (Linked List-based Queue).
- * Chuẩn theo Slide 2_Stack_Queue.pptx môn CSD201.
- */
 public class QueueNode {
-    public RegistrationRequest info; // Yêu cầu đăng ký môn học
+    public RegistrationRequest info;
     public QueueNode next;
 
     public QueueNode(RegistrationRequest info) {
@@ -15,4 +11,3 @@ public class QueueNode {
         this.next = next;
     }
 }
-

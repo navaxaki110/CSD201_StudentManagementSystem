@@ -1,7 +1,3 @@
-/**
- * Cấu trúc Singly Linked List (Danh sách liên kết đơn) để lưu trữ danh sách sinh viên.
- * Cài đặt chuẩn theo giáo trình và Slide 1_List.pptx môn CSD201.
- */
 public class MyList {
     private ListNode head;
     private ListNode tail;
@@ -30,9 +26,6 @@ public class MyList {
         return head;
     }
 
-    /**
-     * Thêm sinh viên vào cuối danh sách (O(1))
-     */
     public void addLast(Student student) {
         if (student == null) return;
         ListNode newNode = new ListNode(student);
@@ -45,9 +38,6 @@ public class MyList {
         size++;
     }
 
-    /**
-     * Thêm sinh viên vào đầu danh sách (O(1))
-     */
     public void addFirst(Student student) {
         if (student == null) return;
         ListNode newNode = new ListNode(student);
@@ -60,9 +50,6 @@ public class MyList {
         size++;
     }
 
-    /**
-     * Tìm kiếm sinh viên theo ID trên Linked List (Độ phức tạp O(n))
-     */
     public ListNode search(String id) {
         ListNode current = head;
         while (current != null) {
@@ -74,14 +61,9 @@ public class MyList {
         return null;
     }
 
-    /**
-     * Xóa sinh viên theo ID khỏi Linked List (Độ phức tạp O(n))
-     * Trả về true nếu xóa thành công, false nếu không tìm thấy.
-     */
     public boolean delete(String id) {
         if (isEmpty()) return false;
 
-        // Nếu phần tử cần xóa nằm ở đầu (head)
         if (head.info.getId().equalsIgnoreCase(id)) {
             head = head.next;
             if (head == null) {
@@ -91,13 +73,11 @@ public class MyList {
             return true;
         }
 
-        // Tìm vị trí node đứng trước node cần xóa
         ListNode current = head;
         while (current.next != null && !current.next.info.getId().equalsIgnoreCase(id)) {
             current = current.next;
         }
 
-        // Nếu tìm thấy
         if (current.next != null) {
             if (current.next == tail) {
                 tail = current;
@@ -110,9 +90,6 @@ public class MyList {
         return false;
     }
 
-    /**
-     * Sắp xếp danh sách sinh viên theo GPA giảm dần bằng thuật toán Selection Sort trên Linked List
-     */
     public void sortByGpaDescending() {
         if (head == null || head.next == null) return;
 
@@ -124,7 +101,6 @@ public class MyList {
                 }
             }
             if (maxNode != p) {
-                // Hoán đổi thông tin giữa 2 Node
                 Student temp = p.info;
                 p.info = maxNode.info;
                 maxNode.info = temp;
@@ -132,12 +108,9 @@ public class MyList {
         }
     }
 
-    /**
-     * Duyệt và in toàn bộ danh sách sinh viên dưới dạng bảng
-     */
     public void traverse() {
         if (isEmpty()) {
-            System.out.println("(!) Danh sach sinh vien trong Linked List hien dang trong.");
+            System.out.println("Danh sach sinh vien hien dang trong.");
             return;
         }
         printTableHeader();
@@ -160,4 +133,3 @@ public class MyList {
         System.out.println("+------------+----------------------+--------------+-------+------------------------+");
     }
 }
-

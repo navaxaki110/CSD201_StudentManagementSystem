@@ -1,7 +1,3 @@
-/**
- * Hàng đợi hỗ trợ duyệt cây BST theo chiều rộng (Breadth-First Traversal / Level Order).
- * Thể hiện sự phối hợp chuẩn chỉ giữa 2 cấu trúc dữ liệu: Queue và Tree.
- */
 public class TreeQueue {
     private static class Node {
         TreeNode treeNode;
@@ -42,4 +38,3 @@ public class TreeQueue {
         return node;
     }
 }
-

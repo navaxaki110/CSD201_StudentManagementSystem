@@ -1,13 +1,3 @@
-/**
- * Cây nhị phân tìm kiếm (Binary Search Tree - BST) để tối ưu hóa tra cứu sinh viên theo ID.
- * Cài đặt đầy đủ các thuật toán chuẩn theo Slide 4A-Trees1.ppt và 4B-Trees2.ppt:
- * - Chèn (Insert)
- * - Tìm kiếm nhị phân (Search theo ID - O(log n))
- * - Duyệt cây: In-order (tăng dần ID), Pre-order, Post-order
- * - Duyệt theo chiều rộng: Breadth-First Traversal (dùng Queue)
- * - Xóa Node: Delete by Copying (Xóa bằng sao chép)
- * - Đếm số Node và tính chiều cao cây (Height)
- */
 public class BSTree {
     private TreeNode root;
 
@@ -27,10 +17,6 @@ public class BSTree {
         return root;
     }
 
-    /**
-     * Chèn 1 sinh viên vào cây BST theo mã sinh viên (ID)
-     * Trả về true nếu chèn thành công, false nếu ID đã tồn tại.
-     */
     public boolean insert(Student student) {
         if (student == null) return false;
         TreeNode newNode = new TreeNode(student);
@@ -46,7 +32,6 @@ public class BSTree {
         while (current != null) {
             int cmp = student.getId().compareToIgnoreCase(current.info.getId());
             if (cmp == 0) {
-                // Trùng ID - không cho phép chèn trùng khóa
                 return false;
             }
             parent = current;
@@ -57,7 +42,6 @@ public class BSTree {
             }
         }
 
-        // Gắn vào cây con trái hoặc phải của parent
         if (student.getId().compareToIgnoreCase(parent.info.getId()) < 0) {
             parent.left = newNode;
         } else {
@@ -66,10 +50,6 @@ public class BSTree {
         return true;
     }
 
-    /**
-     * Tìm kiếm sinh viên theo ID trên cây BST.
-     * Độ phức tạp trung bình O(log n), tốt hơn nhiều so với O(n) của danh sách liên kết.
-     */
     public Student search(String id) {
         TreeNode current = root;
         while (current != null) {
@@ -85,45 +65,9 @@ public class BSTree {
         return null;
     }
 
-    /**
-     * Tìm kiếm sinh viên và đếm số bước so sánh (dùng minh họa thuyết trình trực quan)
-     */
-    public SearchResult searchWithStats(String id) {
-        int steps = 0;
-        TreeNode current = root;
-        while (current != null) {
-            steps++;
-            int cmp = id.compareToIgnoreCase(current.info.getId());
-            if (cmp == 0) {
-                return new SearchResult(current.info, steps, true);
-            } else if (cmp < 0) {
-                current = current.left;
-            } else {
-                current = current.right;
-            }
-        }
-        return new SearchResult(null, steps, false);
-    }
-
-    public static class SearchResult {
-        public Student student;
-        public int steps;
-        public boolean found;
-
-        public SearchResult(Student student, int steps, boolean found) {
-            this.student = student;
-            this.steps = steps;
-            this.found = found;
-        }
-    }
-
-    /**
-     * Duyệt trung thứ tự In-Order (Left - Root - Right):
-     * Tính chất đặc biệt: Danh sách sinh viên sẽ được in theo thứ tự ID TĂNG DẦN (A -> Z).
-     */
     public void inOrder() {
         if (isEmpty()) {
-            System.out.println("(!) Cay BST hien dang trong.");
+            System.out.println("Cay BST hien dang trong.");
             return;
         }
         MyList.printTableHeader();
@@ -138,12 +82,9 @@ public class BSTree {
         inOrderRec(p.right);
     }
 
-    /**
-     * Duyệt tiền thứ tự Pre-Order (Root - Left - Right)
-     */
     public void preOrder() {
         if (isEmpty()) {
-            System.out.println("(!) Cay BST hien dang trong.");
+            System.out.println("Cay BST hien dang trong.");
             return;
         }
         MyList.printTableHeader();
@@ -158,12 +99,9 @@ public class BSTree {
         preOrderRec(p.right);
     }
 
-    /**
-     * Duyệt hậu thứ tự Post-Order (Left - Right - Root)
-     */
     public void postOrder() {
         if (isEmpty()) {
-            System.out.println("(!) Cay BST hien dang trong.");
+            System.out.println("Cay BST hien dang trong.");
             return;
         }
         MyList.printTableHeader();
@@ -178,13 +116,9 @@ public class BSTree {
         System.out.println(p.info);
     }
 
-    /**
-     * Duyệt theo chiều rộng (Breadth-First Traversal / Level-Order):
-     * Sử dụng cấu trúc hàng đợi Queue để duyệt từng tầng của cây từ trên xuống dưới.
-     */
     public void breadthFirst() {
         if (isEmpty()) {
-            System.out.println("(!) Cay BST hien dang trong.");
+            System.out.println("Cay BST hien dang trong.");
             return;
         }
         MyList.printTableHeader();
@@ -200,15 +134,10 @@ public class BSTree {
         MyList.printTableFooter();
     }
 
-    /**
-     * Xóa 1 Node khỏi cây BST bằng phương pháp sao chép (Delete by Copying)
-     * Đúng chuẩn thuật toán trong Slide 4B-Trees2.ppt.
-     */
     public boolean deleteByCopying(String id) {
         TreeNode parent = null;
         TreeNode current = root;
 
-        // 1. Tìm node cần xóa (current) và node cha của nó (parent)
         while (current != null) {
             int cmp = id.compareToIgnoreCase(current.info.getId());
             if (cmp == 0) break;
@@ -217,14 +146,12 @@ public class BSTree {
             else current = current.right;
         }
 
-        if (current == null) return false; // Không tìm thấy ID để xóa
+        if (current == null) return false;
 
-        // Trường hợp 1 & 2: current có tối đa 1 nhánh con
         if (current.left == null || current.right == null) {
             TreeNode child = (current.left != null) ? current.left : current.right;
 
             if (parent == null) {
-                // Node cần xóa là root
                 root = child;
             } else if (parent.left == current) {
                 parent.left = child;
@@ -234,8 +161,6 @@ public class BSTree {
             return true;
         }
 
-        // Trường hợp 3: current có cả 2 nhánh con (trái và phải)
-        // Tìm node cực phải của cây con bên trái (predecessor - phần tử lớn nhất bên cây con trái)
         TreeNode pR = current.left;
         TreeNode parentOfPR = current;
 
@@ -244,10 +169,8 @@ public class BSTree {
             pR = pR.right;
         }
 
-        // Sao chép dữ liệu từ pR sang current
         current.info = pR.info;
 
-        // Xóa node pR ban đầu
         if (parentOfPR == current) {
             parentOfPR.left = pR.left;
         } else {
@@ -257,9 +180,6 @@ public class BSTree {
         return true;
     }
 
-    /**
-     * Đếm tổng số Node trên cây
-     */
     public int count() {
         return countRec(root);
     }
@@ -269,9 +189,6 @@ public class BSTree {
         return 1 + countRec(p.left) + countRec(p.right);
     }
 
-    /**
-     * Tính chiều cao của cây (Height)
-     */
     public int height() {
         return heightRec(root);
     }
@@ -283,4 +200,3 @@ public class BSTree {
         return 1 + Math.max(leftH, rightH);
     }
 }
-

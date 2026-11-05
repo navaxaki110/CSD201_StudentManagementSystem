@@ -1,7 +1,3 @@
-/**
- * Hàng đợi MyQueue quản lý danh sách sinh viên đăng ký môn học (FIFO - First In, First Out).
- * Cài đặt bằng danh sách liên kết theo chuẩn Slide 2_Stack_Queue.pptx môn CSD201.
- */
 public class MyQueue {
     protected QueueNode head;
     protected QueueNode tail;
@@ -26,9 +22,6 @@ public class MyQueue {
         return count;
     }
 
-    /**
-     * Thêm yêu cầu đăng ký vào cuối hàng đợi (Enqueue - O(1))
-     */
     public void enqueue(RegistrationRequest req) {
         if (req == null) return;
         QueueNode newNode = new QueueNode(req);
@@ -41,10 +34,6 @@ public class MyQueue {
         count++;
     }
 
-    /**
-     * Lấy và xóa yêu cầu ở đầu hàng đợi ra xử lý (Dequeue - O(1))
-     * Tuân thủ nghiêm ngặt nguyên lý FIFO (Đến trước được xử lý trước)
-     */
     public RegistrationRequest dequeue() {
         if (isEmpty()) {
             return null;
@@ -58,9 +47,6 @@ public class MyQueue {
         return req;
     }
 
-    /**
-     * Xem yêu cầu ở đầu hàng đợi nhưng không xóa (Front / Peek - O(1))
-     */
     public RegistrationRequest front() {
         if (isEmpty()) {
             return null;
@@ -68,15 +54,12 @@ public class MyQueue {
         return head.info;
     }
 
-    /**
-     * Hiển thị toàn bộ hàng đợi đăng ký môn học
-     */
     public void display() {
         if (isEmpty()) {
-            System.out.println("(!) Hang doi dang ky hien dang trong. Khong co sinh vien nao dang cho.");
+            System.out.println("Hang doi dang ky hien dang trong.");
             return;
         }
-        System.out.println("===== HANG DOI DANG KY MON HOC (FIFO - First In First Out) =====");
+        System.out.println("===== HANG DOI DANG KY MON HOC =====");
         QueueNode current = head;
         int index = 1;
         while (current != null) {
@@ -85,7 +68,6 @@ public class MyQueue {
             index++;
         }
         System.out.println("Tong so yeu cau dang cho: " + count);
-        System.out.println("===============================================================");
+        System.out.println("====================================");
     }
 }
-

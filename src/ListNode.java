@@ -1,10 +1,6 @@
-/**
- * Node dành cho cấu trúc Singly Linked List (Danh sách liên kết đơn).
- * Đúng chuẩn theo Slide 1_List.pptx môn CSD201.
- */
 public class ListNode {
-    public Student info;   // Dữ liệu chứa thông tin sinh viên
-    public ListNode next;  // Con trỏ liên kết đến Node kế tiếp
+    public Student info;
+    public ListNode next;
 
     public ListNode() {
         this(null, null);
@@ -19,4 +15,3 @@ public class ListNode {
         this.next = next;
     }
 }
-

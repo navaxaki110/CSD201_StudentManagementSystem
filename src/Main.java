@@ -1,16 +1,10 @@
 import java.util.Scanner;
 
-/**
- * Giao diện tương tác người dùng (Console Menu / CLI)
- * Đề tài: Student Management System (Đề 2 - CT_DSA_Problems)
- * Môn học: Data Structures and Algorithms (CSD201)
- */
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
     private static StudentManager manager = new StudentManager();
 
     public static void main(String[] args) {
-        // Tự động nạp dữ liệu mẫu ban đầu để sẵn sàng chạy thử nghiệm
         manager.loadSampleData();
 
         int choice = -1;
@@ -53,12 +47,13 @@ public class Main {
                     break;
                 case 12:
                     manager.loadSampleData();
+                    System.out.println("Da nap lai du lieu mau.");
                     break;
                 case 0:
-                    System.out.println("\n[!] Cam on ban da su dung chuong trinh. Chuc nhom thuyet trinh dat diem cao!");
+                    System.out.println("Tam biet!");
                     break;
                 default:
-                    System.out.println("[!] Lua chon khong hop le. Vui long chon tu 0 den 12.");
+                    System.out.println("Lua chon khong hop le.");
             }
             if (choice != 0) {
                 System.out.println("\nNhan Enter de tiep tuc...");
@@ -68,45 +63,44 @@ public class Main {
     }
 
     private static void printMenu() {
-        System.out.println("\n==================================================================");
-        System.out.println("     HE THONG QUAN LY SINH VIEN & DANG KY MON HOC (CSD201)      ");
-        System.out.println("     (Computational Thinking: Linked List + Queue + BST)         ");
-        System.out.println("==================================================================");
-        System.out.println(" [1]  Them sinh vien moi (Them vao Linked List & Cay BST)");
-        System.out.println(" [2]  Xem toan bo sinh vien (Duyet danh sach Linked List)");
-        System.out.println(" [3]  Tim kiem sinh vien theo MSSV (Dung cay BST - O(log n))");
-        System.out.println(" [4]  Them yeu cau dang ky mon vao Hang doi (Queue Enqueue)");
-        System.out.println(" [5]  Xu ly 1 yeu cau dang ky mon tiep theo (Queue Dequeue FIFO)");
-        System.out.println(" [6]  Xu ly toan bo yeu cau trong hang doi dang ky");
-        System.out.println(" [7]  Xem danh sach sinh vien dang cho trong Hang doi (Queue Display)");
-        System.out.println(" [8]  In danh sach sinh vien tang dan theo MSSV (BST In-Order)");
-        System.out.println(" [9]  In cay sinh vien theo tung tang (BST Breadth-First Traversal)");
-        System.out.println(" [10] Sap xep sinh vien theo GPA giam dan (Selection Sort tren List)");
-        System.out.println(" [11] Xoa sinh vien theo MSSV (Dong bo xoa tren ca List va BST)");
-        System.out.println(" [12] Nap lai du lieu mau mac dinh (Sample Demo Data)");
-        System.out.println(" [0]  Thoat chuong trinh");
-        System.out.println("==================================================================");
+        System.out.println("\n=======================================================");
+        System.out.println("       HE THONG QUAN LY SINH VIEN & DANG KY MON        ");
+        System.out.println("=======================================================");
+        System.out.println(" [1]  Them sinh vien moi");
+        System.out.println(" [2]  Xem danh sach sinh vien");
+        System.out.println(" [3]  Tim kiem sinh vien theo MSSV");
+        System.out.println(" [4]  Gui yeu cau dang ky mon hoc");
+        System.out.println(" [5]  Duyet 1 yeu cau dang ky (FIFO)");
+        System.out.println(" [6]  Duyet tat ca yeu cau dang ky");
+        System.out.println(" [7]  Xem hang doi dang ky mon");
+        System.out.println(" [8]  In danh sach theo MSSV tang dan (In-Order)");
+        System.out.println(" [9]  In cay sinh vien theo tang (Breadth-First)");
+        System.out.println(" [10] Sap xep danh sach theo GPA giam dan");
+        System.out.println(" [11] Xoa sinh vien theo MSSV");
+        System.out.println(" [12] Nap lai du lieu mau");
+        System.out.println(" [0]  Thoat");
+        System.out.println("=======================================================");
     }
 
     private static void handleAddStudent() {
         System.out.println("\n--- THEM SINH VIEN MOI ---");
-        System.out.print("Nhap Ma so sinh vien (MSSV): ");
+        System.out.print("Nhap MSSV: ");
         String id = scanner.nextLine().trim();
         if (id.isEmpty()) {
-            System.out.println("[!] MSSV khong duoc de trong.");
+            System.out.println("MSSV khong duoc de trong.");
             return;
         }
 
-        System.out.print("Nhap Ho va ten sinh vien: ");
+        System.out.print("Nhap Ho va ten: ");
         String name = scanner.nextLine().trim();
 
-        System.out.print("Nhap Chuyen nganh (SE, IA, AI, DS,...): ");
+        System.out.print("Nhap Chuyen nganh: ");
         String major = scanner.nextLine().trim();
 
-        double gpa = readDouble("Nhap Diem GPA (0.0 -> 10.0): ");
+        double gpa = readDouble("Nhap GPA (0.0 - 10.0): ");
         while (gpa < 0.0 || gpa > 10.0) {
-            System.out.println("[!] GPA phai nam trong khoang tu 0.0 den 10.0.");
-            gpa = readDouble("Nhap lai Diem GPA: ");
+            System.out.println("GPA khong hop le.");
+            gpa = readDouble("Nhap lai GPA: ");
         }
 
         Student s = new Student(id, name, major, gpa);
@@ -114,18 +108,18 @@ public class Main {
     }
 
     private static void handleSearchStudent() {
-        System.out.println("\n--- TIM KIEM SINH VIEN THEO MSSV ---");
-        System.out.print("Nhap MSSV can tra cuu: ");
+        System.out.println("\n--- TIM KIEM SINH VIEN ---");
+        System.out.print("Nhap MSSV can tim: ");
         String id = scanner.nextLine().trim();
         manager.searchStudent(id);
     }
 
     private static void handleRequestRegistration() {
-        System.out.println("\n--- DANG KY MON HOC (VAO HANG DOI QUEUE) ---");
-        System.out.print("Nhap MSSV muon dang ky mon: ");
+        System.out.println("\n--- DANG KY MON HOC ---");
+        System.out.print("Nhap MSSV: ");
         String id = scanner.nextLine().trim();
 
-        System.out.print("Nhap Ma mon hoc (vd: CSD201, PRF192, MAS291): ");
+        System.out.print("Nhap Ma mon hoc: ");
         String course = scanner.nextLine().trim();
 
         manager.requestCourseRegistration(id, course);
@@ -145,7 +139,7 @@ public class Main {
                 String line = scanner.nextLine().trim();
                 return Integer.parseInt(line);
             } catch (NumberFormatException e) {
-                System.out.println("[!] Vui long nhap so nguyen hop le.");
+                System.out.println("Vui long nhap so hop le.");
             }
         }
     }
@@ -157,9 +151,8 @@ public class Main {
                 String line = scanner.nextLine().trim();
                 return Double.parseDouble(line);
             } catch (NumberFormatException e) {
-                System.out.println("[!] Vui long nhap so thuc hop le.");
+                System.out.println("Vui long nhap so thuc hop le.");
             }
         }
     }
 }
-
