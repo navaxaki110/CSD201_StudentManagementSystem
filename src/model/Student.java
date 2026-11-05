@@ -92,7 +92,7 @@ public class Student {
 
     @Override
     public String toString() {
-        return String.format("| %-10s | %-20s | %-12s | %-5.2f | %-22s |", 
+        return String.format("| %-10s | %-22s | %-20s | %-6.2f | %-25s |", 
                 id, name, major, gpa, courses);
     }
 }

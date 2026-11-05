@@ -1,5 +1,8 @@
 package manager;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import list.MyList;
@@ -72,27 +75,6 @@ public class StudentManager {
         }
     }
 
-    public boolean updateStudent(String id, String newName, String newMajor, double newGpa) {
-        if (id == null || id.trim().isEmpty()) {
-            System.out.println("Vui long nhap ma sinh vien can sua.");
-            return false;
-        }
-        boolean updatedInList = studentList.update(id, newName, newMajor, newGpa);
-        Student studentInBST = studentBST.search(id);
-        if (studentInBST != null) {
-            if (newName != null && !newName.trim().isEmpty()) studentInBST.setName(newName.trim());
-            if (newMajor != null && !newMajor.trim().isEmpty()) studentInBST.setMajor(newMajor.trim());
-            if (newGpa >= 0.0 && newGpa <= 10.0) studentInBST.setGpa(newGpa);
-        }
-        if (updatedInList) {
-            System.out.println("Cap nhat thong tin sinh vien '" + id + "' thanh cong.");
-            return true;
-        } else {
-            System.out.println("Khong tim thay sinh vien co ma: " + id);
-            return false;
-        }
-    }
-
     public boolean requestCourseRegistration(String studentId, String courseCode) {
         if (studentId == null || courseCode == null || studentId.trim().isEmpty() || courseCode.trim().isEmpty()) {
             System.out.println("Ma sinh vien va ma mon hoc khong duoc de trong.");
@@ -137,64 +119,73 @@ public class StudentManager {
         }
     }
 
-    public void processAllRegistrations() {
-        if (registrationQueue.isEmpty()) {
-            System.out.println("Hang doi dang ky trong.");
-            return;
-        }
-        System.out.println("\n--- XU LY HANG DOI DANG KY ---");
-        int count = 0;
-        while (!registrationQueue.isEmpty()) {
-            processNextRegistration();
-            count++;
-        }
-        System.out.println("Hoan tat xu ly " + count + " yeu cau.");
-    }
-
     public void displayRegistrationQueue() {
         registrationQueue.display();
     }
 
-    public void displayStudentsSortedById() {
-        System.out.println("\n--- DANH SACH SINH VIEN THEO MSSV TANG DAN ---");
-        studentBST.inOrder();
-    }
-
-    public void displayTreeBreadthFirst() {
-        System.out.println("\n--- DUYET CAY THEO TUNG TANG (BREADTH-FIRST) ---");
-        studentBST.breadthFirst();
-        System.out.println("Tong so sinh vien: " + studentBST.count() + " | Chieu cao cay: " + studentBST.height());
-    }
-
-    public void sortByGpaDescending() {
-        studentList.sortByGpaDescending();
-        System.out.println("Da sap xep danh sach theo GPA giam dan.");
-        studentList.traverse();
-    }
-
-    public boolean deleteStudent(String id) {
-        if (id == null || id.trim().isEmpty()) {
-            System.out.println("Vui long nhap ma sinh vien can xoa.");
-            return false;
-        }
-
-        boolean deletedFromList = studentList.delete(id);
-        boolean deletedFromBST = studentBST.deleteByCopying(id);
-
-        if (deletedFromList && deletedFromBST) {
-            System.out.println("Da xoa sinh vien co ma '" + id + "'.");
-            return true;
-        } else {
-            System.out.println("Khong tim thay sinh vien co ma '" + id + "' de xoa.");
-            return false;
-        }
-    }
-
-    public void loadSampleData() {
+    public void loadDataFromFiles() {
         studentList.clear();
         studentBST.clear();
         registrationQueue.clear();
 
+        File sFile = findFile("students.txt");
+        if (sFile != null && sFile.exists()) {
+            try (BufferedReader br = new BufferedReader(new FileReader(sFile))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    line = line.trim();
+                    if (line.isEmpty() || line.startsWith("#")) continue;
+                    String[] parts = line.split("\\|");
+                    if (parts.length >= 4) {
+                        String id = parts[0].trim();
+                        String name = parts[1].trim();
+                        String major = parts[2].trim();
+                        double gpa = Double.parseDouble(parts[3].trim());
+                        String courses = parts.length > 4 ? parts[4].trim() : "Chua dang ky";
+                        Student s = new Student(id, name, major, gpa, courses);
+                        studentList.addLast(s);
+                        studentBST.insert(s);
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Loi khi doc file students.txt: " + e.getMessage());
+            }
+        } else {
+            loadDefaultStudents();
+        }
+
+        File rFile = findFile("requests.txt");
+        if (rFile != null && rFile.exists()) {
+            try (BufferedReader br = new BufferedReader(new FileReader(rFile))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    line = line.trim();
+                    if (line.isEmpty() || line.startsWith("#")) continue;
+                    String[] parts = line.split("\\|");
+                    if (parts.length >= 2) {
+                        String studentId = parts[0].trim();
+                        String courseCode = parts[1].trim();
+                        String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy"));
+                        registrationQueue.enqueue(new RegistrationRequest(studentId, courseCode, time));
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Loi khi doc file requests.txt: " + e.getMessage());
+            }
+        }
+    }
+
+    private File findFile(String fileName) {
+        File f = new File(fileName);
+        if (f.exists()) return f;
+        f = new File("StudentManagementSystem" + File.separator + fileName);
+        if (f.exists()) return f;
+        f = new File(".." + File.separator + fileName);
+        if (f.exists()) return f;
+        return null;
+    }
+
+    private void loadDefaultStudents() {
         addStudent(new Student("SE1804", "Tran Quoc Tuan", "Software Eng", 8.9, "CSD201, PRF192"));
         addStudent(new Student("SE1802", "Nguyen Thi Binh", "Artificial Intel", 7.8, "CSD201"));
         addStudent(new Student("SE1806", "Le Van Cuong", "Information Sec", 9.1, "CSD201, MAS291"));
@@ -202,9 +193,6 @@ public class StudentManager {
         addStudent(new Student("SE1803", "Vu Hoang Dung", "Data Science", 8.4, "CSD201, PRO192"));
         addStudent(new Student("SE1805", "Hoang Thi Em", "Information Sec", 7.2, "PRF192"));
         addStudent(new Student("SE1807", "Do Minh Giang", "Software Eng", 8.0, "PRO192"));
-
-        requestCourseRegistration("SE1801", "CSD201");
-        requestCourseRegistration("SE1805", "CSD201");
-        requestCourseRegistration("SE1807", "MAS291");
+        addStudent(new Student("SE205280", "Le Trong Hieu", "SE", 9.0, "Chua dang ky"));
     }
 }
