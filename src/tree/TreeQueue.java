@@ -1,15 +1,8 @@
-public class TreeQueue {
-    private static class Node {
-        TreeNode treeNode;
-        Node next;
-        Node(TreeNode treeNode) {
-            this.treeNode = treeNode;
-            this.next = null;
-        }
-    }
+package tree;
 
-    private Node head;
-    private Node tail;
+public class TreeQueue {
+    private TreeQueueNode head;
+    private TreeQueueNode tail;
 
     public TreeQueue() {
         head = tail = null;
@@ -21,7 +14,7 @@ public class TreeQueue {
 
     public void enqueue(TreeNode treeNode) {
         if (treeNode == null) return;
-        Node newNode = new Node(treeNode);
+        TreeQueueNode newNode = new TreeQueueNode(treeNode);
         if (isEmpty()) {
             head = tail = newNode;
         } else {

@@ -1,3 +1,7 @@
+package queue;
+
+import model.RegistrationRequest;
+
 public class MyQueue {
     protected QueueNode head;
     protected QueueNode tail;

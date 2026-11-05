@@ -1,3 +1,5 @@
+package model;
+
 public class RegistrationRequest {
     private String studentId;
     private String courseCode;

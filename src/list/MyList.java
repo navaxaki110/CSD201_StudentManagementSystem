@@ -1,3 +1,7 @@
+package list;
+
+import model.Student;
+
 public class MyList {
     private ListNode head;
     private ListNode tail;
@@ -59,6 +63,28 @@ public class MyList {
             current = current.next;
         }
         return null;
+    }
+
+    public boolean update(String id, String newName, String newMajor, double newGpa) {
+        ListNode node = search(id);
+        if (node == null) return false;
+        if (newName != null && !newName.trim().isEmpty()) {
+            node.info.setName(newName.trim());
+        }
+        if (newMajor != null && !newMajor.trim().isEmpty()) {
+            node.info.setMajor(newMajor.trim());
+        }
+        if (newGpa >= 0.0 && newGpa <= 10.0) {
+            node.info.setGpa(newGpa);
+        }
+        return true;
+    }
+
+    public boolean updateCourses(String id, String courseCode) {
+        ListNode node = search(id);
+        if (node == null) return false;
+        node.info.addCourse(courseCode);
+        return true;
     }
 
     public boolean delete(String id) {

@@ -1,3 +1,8 @@
+package tree;
+
+import list.MyList;
+import model.Student;
+
 public class BSTree {
     private TreeNode root;
 

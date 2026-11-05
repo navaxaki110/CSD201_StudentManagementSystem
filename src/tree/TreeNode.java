@@ -1,3 +1,7 @@
+package tree;
+
+import model.Student;
+
 public class TreeNode {
     public Student info;
     public TreeNode left;

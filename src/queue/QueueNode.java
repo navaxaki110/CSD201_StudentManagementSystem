@@ -1,3 +1,7 @@
+package queue;
+
+import model.RegistrationRequest;
+
 public class QueueNode {
     public RegistrationRequest info;
     public QueueNode next;

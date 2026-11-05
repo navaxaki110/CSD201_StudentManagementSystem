@@ -1,5 +1,12 @@
+package manager;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import list.MyList;
+import model.RegistrationRequest;
+import model.Student;
+import queue.MyQueue;
+import tree.BSTree;
 
 public class StudentManager {
     private MyList studentList;
@@ -65,6 +72,27 @@ public class StudentManager {
         }
     }
 
+    public boolean updateStudent(String id, String newName, String newMajor, double newGpa) {
+        if (id == null || id.trim().isEmpty()) {
+            System.out.println("Vui long nhap ma sinh vien can sua.");
+            return false;
+        }
+        boolean updatedInList = studentList.update(id, newName, newMajor, newGpa);
+        Student studentInBST = studentBST.search(id);
+        if (studentInBST != null) {
+            if (newName != null && !newName.trim().isEmpty()) studentInBST.setName(newName.trim());
+            if (newMajor != null && !newMajor.trim().isEmpty()) studentInBST.setMajor(newMajor.trim());
+            if (newGpa >= 0.0 && newGpa <= 10.0) studentInBST.setGpa(newGpa);
+        }
+        if (updatedInList) {
+            System.out.println("Cap nhat thong tin sinh vien '" + id + "' thanh cong.");
+            return true;
+        } else {
+            System.out.println("Khong tim thay sinh vien co ma: " + id);
+            return false;
+        }
+    }
+
     public boolean requestCourseRegistration(String studentId, String courseCode) {
         if (studentId == null || courseCode == null || studentId.trim().isEmpty() || courseCode.trim().isEmpty()) {
             System.out.println("Ma sinh vien va ma mon hoc khong duoc de trong.");
@@ -100,6 +128,7 @@ public class StudentManager {
 
         if (student != null) {
             student.addCourse(req.getCourseCode());
+            studentList.updateCourses(req.getStudentId(), req.getCourseCode());
             System.out.println("Da duyet dang ky mon " + req.getCourseCode() + " cho sinh vien " + student.getName() + " (" + student.getId() + ").");
             return true;
         } else {

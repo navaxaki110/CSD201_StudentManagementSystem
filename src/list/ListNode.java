@@ -1,3 +1,7 @@
+package list;
+
+import model.Student;
+
 public class ListNode {
     public Student info;
     public ListNode next;
