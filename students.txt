@@ -6,3 +6,4 @@ SE1803 | Vu Hoang Dung | Data Science | 8.40 | CSD201, PRO192
 SE1805 | Hoang Thi Em | Information Sec | 7.20 | PRF192
 SE1807 | Do Minh Giang | Software Eng | 8.00 | PRO192
 SE205280 | Le Trong Hieu | SE | 9.00 | Chua dang ky
+

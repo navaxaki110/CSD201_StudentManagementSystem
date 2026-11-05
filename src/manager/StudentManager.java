@@ -56,6 +56,12 @@ public class StudentManager {
         studentList.traverse();
     }
 
+    public void sortByGpa() {
+        studentList.sortByGpaDescending();
+        System.out.println("\n--- DANH SACH SINH VIEN THEO GPA GIAM DAN ---");
+        studentList.traverse();
+    }
+
     public Student searchStudent(String id) {
         if (id == null || id.trim().isEmpty()) {
             System.out.println("Vui long nhap ma sinh vien can tim.");

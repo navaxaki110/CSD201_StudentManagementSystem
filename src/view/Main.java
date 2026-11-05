@@ -26,12 +26,15 @@ public class Main {
                     handleSearchStudent();
                     break;
                 case 4:
-                    handleRequestRegistration();
+                    manager.sortByGpa();
                     break;
                 case 5:
-                    manager.processNextRegistration();
+                    handleRequestRegistration();
                     break;
                 case 6:
+                    manager.processNextRegistration();
+                    break;
+                case 7:
                     manager.displayRegistrationQueue();
                     break;
                 case 0:
@@ -53,10 +56,11 @@ public class Main {
         System.out.println("=======================================================");
         System.out.println(" [1]  Xem danh sach sinh vien");
         System.out.println(" [2]  Them sinh vien moi");
-        System.out.println(" [3]  Tim kiem sinh vien theo MSSV");
-        System.out.println(" [4]  Dang ky mon hoc vao hang doi");
-        System.out.println(" [5]  Duyet dang ky mon hoc (FIFO)");
-        System.out.println(" [6]  Xem hang doi dang ky mon");
+        System.out.println(" [3]  Tim kiem sinh vien theo MSSV (BST)");
+        System.out.println(" [4]  Sap xep sinh vien theo GPA giam dan");
+        System.out.println(" [5]  Dang ky mon hoc vao hang doi");
+        System.out.println(" [6]  Duyet dang ky mon hoc (FIFO)");
+        System.out.println(" [7]  Xem hang doi dang ky mon");
         System.out.println(" [0]  Thoat");
         System.out.println("=======================================================");
     }
